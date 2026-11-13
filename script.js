@@ -1,3 +1,25 @@
+const themeToggle = document.querySelector('.theme-toggle');
+const savedTheme = window.localStorage.getItem('portfolio-theme') || 'light';
+
+const applyTheme = (theme) => {
+  const isDark = theme === 'dark';
+  document.documentElement.dataset.theme = isDark ? 'dark' : 'light';
+  if (themeToggle) {
+    themeToggle.setAttribute('aria-pressed', String(isDark));
+    themeToggle.setAttribute('aria-label', isDark ? 'Switch to light mode' : 'Switch to dark mode');
+    themeToggle.querySelector('.theme-label').textContent = isDark ? 'Light mode' : 'Dark mode';
+    themeToggle.querySelector('.theme-icon').textContent = isDark ? '☼' : '◐';
+  }
+};
+
+applyTheme(savedTheme);
+
+themeToggle?.addEventListener('click', () => {
+  const nextTheme = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+  window.localStorage.setItem('portfolio-theme', nextTheme);
+  applyTheme(nextTheme);
+});
+
 document.getElementById('year').textContent = new Date().getFullYear();
 
 document.querySelectorAll('.case-visual[data-video-id]').forEach((visual) => {
